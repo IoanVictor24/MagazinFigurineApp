@@ -1,0 +1,82 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<MagazinFigurineApp.Models.Figurina>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Nume)</th>
+            <th>@Html.DisplayNameFor(model => model.Pret)</th>
+            <th>@Html.DisplayNameFor(model => model.Trilogie)</th>
+            <th>@Html.DisplayNameFor(model => model.DataLansare)</th>
+            <th>@Html.DisplayNameFor(model => model.Descriere)</th>
+            <th>@Html.DisplayNameFor(model => model.SKU)</th>
+            <th>@Html.DisplayNameFor(model => model.Stoc)</th>
+            <th>@Html.DisplayNameFor(model => model.Producator)</th>
+            <th>@Html.DisplayNameFor(model => model.Magazin)</th>
+            <th>@Html.DisplayNameFor(model => model.ImagineFigurina)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Nume)</td>
+                <td>@Html.DisplayFor(modelItem => item.Pret)</td>
+                <td>@Html.DisplayFor(modelItem => item.Trilogie)</td>
+                <td>@Html.DisplayFor(modelItem => item.DataLansare)</td>
+                <td>@Html.DisplayFor(modelItem => item.Descriere)</td>
+                <td>@Html.DisplayFor(modelItem => item.SKU)</td>
+                <td>@Html.DisplayFor(modelItem => item.Stoc)</td>
+                <td>@Html.DisplayFor(modelItem => item.Producator.Nume)</td>
+                <td>@Html.DisplayFor(modelItem => item.Magazin.Nume)</td>
+                <td>
+                    <img src="@(item.ImagineFigurina != null
+                    ? $"data:image/jpeg;base64,{Convert.ToBase64String(item.ImagineFigurina)}"
+                    : Url.Content("~/images/default-artist.png"))"
+                    alt="@item.Nume" />
+                </td>
+                <td>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.FigurinaID">Edit</a>
+ 
+                    }
+                    <a asp-action="Details" asp-route-id="@item.FigurinaID">Details</a>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a asp-action = "Delete" asp-route-id = "@item.FigurinaID" > Delete </a >
+                     }
+
+                    @if (User.IsInRole("User") || User.IsInRole("Admin"))
+                    {
+                        <form asp-controller="Cos" asp-action="Adauga" method="post" class="mt-2 d-flex flex-column">
+                            <input type="hidden" name="figurinaId" value="@item.FigurinaID" />
+                            <div class="input-group input-group-sm mb-1">
+                                <input type="number" name="cantitate" min="1" value="1" class="form-control" style="max-width: 80px;" />
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                <i class="bi bi-cart-plus"></i> Adaugă în coș
+                            </button>
+                        </form>
+                    }
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

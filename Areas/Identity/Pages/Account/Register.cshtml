@@ -1,0 +1,354 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<!-- Add Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    /* Custom Styles for Register Page */
+    @@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        position: relative;
+        color: #fff;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('your-image-url-2.jpg'); /* Replace with actual URL in production */
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.5) saturate(0.7) blur(3px);
+        z-index: -1;
+    }
+
+    h1, h2, h3 {
+        font-family: 'Orbitron', sans-serif;
+        text-transform: uppercase;
+        color: #f0c;
+        text-shadow: 0 0 10px #f0c, 0 0 20px #f0c;
+        animation: neon-purple 1.5s infinite alternate;
+    }
+
+    .container {
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 0 20px rgba(255, 0, 204, 0.5);
+        animation: pulse-purple 3s infinite;
+    }
+
+    .form-floating input {
+        background-color: rgba(20, 0, 40, 0.7);
+        border: 1px solid #f0c;
+        color: #fff;
+        transition: all 0.3s ease;
+    }
+
+        .form-floating input:focus {
+            background-color: rgba(30, 0, 60, 0.9);
+            box-shadow: 0 0 15px rgba(255, 0, 204, 0.7);
+            border-color: #f0c;
+        }
+
+    .form-floating label {
+        color: #f0c;
+    }
+
+    #registerSubmit {
+        background: linear-gradient(45deg, #0ff, #f0c);
+        border: none;
+        font-family: 'Orbitron', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: bold;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        transition: all 0.3s ease;
+    }
+
+        #registerSubmit:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: all 0.6s ease;
+        }
+
+        #registerSubmit:hover:before {
+            left: 100%;
+        }
+
+        #registerSubmit:hover {
+            box-shadow: 0 0 15px rgba(255, 0, 204, 0.7), 0 0 30px rgba(0, 255, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #0ff, #f0c);
+        border: none;
+        font-family: 'Orbitron', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .btn-primary:hover:before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 15px rgba(255, 0, 204, 0.7), 0 0 30px rgba(0, 255, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+    /* Links */
+    a {
+        color: #00ffff;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+        a:hover {
+            color: #ff00cc;
+            text-shadow: 0 0 5px #ff00cc;
+        }
+
+        a:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ffff, #ff00cc);
+            transition: width 0.3s ease;
+        }
+
+        a:hover:after {
+            width: 100%;
+        }
+
+    /* Animations */
+    @@keyframes neon-purple {
+        from
+
+    {
+        text-shadow: 0 0 5px #f0c, 0 0 10px #f0c;
+    }
+
+    to {
+        text-shadow: 0 0 10px #f0c, 0 0 20px #f0c, 0 0 30px #f0c;
+    }
+
+    }
+
+    @@keyframes pulse-purple {
+        0%
+
+    {
+        box-shadow: 0 0 20px rgba(255, 0, 204, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(255, 0, 204, 0.7), 0 0 40px rgba(0, 255, 255, 0.3);
+    }
+
+    100% {
+        box-shadow: 0 0 20px rgba(255, 0, 204, 0.5);
+    }
+
+    }
+
+    /* Section styles */
+    section {
+        background-color: rgba(20, 0, 30, 0.6);
+        padding: 25px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 0, 204, 0.3);
+        margin-bottom: 20px;
+    }
+
+    hr {
+        border-color: rgba(255, 0, 204, 0.3);
+        box-shadow: 0 0 5px rgba(255, 0, 204, 0.3);
+    }
+
+    .text-danger {
+        color: #ff5566 !important;
+        font-weight: bold;
+        text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+    }
+
+    /* Floating elements */
+    .floating-icon {
+        position: absolute;
+        opacity: 0.2;
+        animation: float 8s infinite ease-in-out;
+    }
+
+        .floating-icon:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            font-size: 3rem;
+            color: #0ff;
+            animation-delay: 0s;
+        }
+
+        .floating-icon:nth-child(2) {
+            top: 20%;
+            right: 10%;
+            font-size: 2.5rem;
+            color: #f0c;
+            animation-delay: 1s;
+        }
+
+        .floating-icon:nth-child(3) {
+            bottom: 15%;
+            left: 15%;
+            font-size: 3.5rem;
+            color: #0ff;
+            animation-delay: 2s;
+        }
+
+        .floating-icon:nth-child(4) {
+            bottom: 30%;
+            right: 5%;
+            font-size: 2rem;
+            color: #f0c;
+            animation-delay: 3s;
+        }
+
+    @@keyframes float {
+        0%, 100%
+
+    {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+
+    }
+</style>
+
+<!-- Floating icons -->
+<div class="floating-icon"><i class="fas fa-robot"></i></div>
+<div class="floating-icon"><i class="fas fa-user-astronaut"></i></div>
+<div class="floating-icon"><i class="fas fa-space-shuttle"></i></div>
+<div class="floating-icon"><i class="fas fa-satellite"></i></div>
+
+<div class="container py-5 mt-4">
+    <h1><i class="fas fa-user-plus me-3"></i>@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <h2><i class="fas fa-rocket me-2"></i>Create a new account.</h2>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label asp-for="Input.Email"><i class="fas fa-envelope me-2"></i>Email</label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Input.Password"><i class="fas fa-key me-2"></i>Password</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Input.ConfirmPassword"><i class="fas fa-lock me-2"></i>Confirm Password</label>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">
+                    <i class="fas fa-user-plus me-2"></i>Register
+                </button>
+            </form>
+        </div>
+        <div class="col-md-6 col-md-offset-2">
+            <section>
+                <h3><i class="fas fa-plug me-3"></i>Use another service to register.</h3>
+                <hr />
+                @{
+                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
+                        <div>
+                            <p>
+                                <i class="fas fa-info-circle me-2"></i>There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                    article
+                                    about setting up this ASP.NET application to support logging in via external services
+                                </a>.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach (var provider in Model.ExternalLogins!)
+                                    {
+                                        <button type="submit" class="btn btn-primary me-2 mb-2" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                            <i class="fab fa-@(provider.Name.ToLower()) me-2"></i>@provider.DisplayName
+                                        </button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }
+            </section>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Add subtle animation to page elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation to form fields
+            const formElements = document.querySelectorAll('input, button');
+            formElements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + (index * 100));
+            });
+        });
+    </script>
+}

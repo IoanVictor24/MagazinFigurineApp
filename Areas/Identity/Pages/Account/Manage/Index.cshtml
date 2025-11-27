@@ -1,0 +1,226 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<!-- Add Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<!-- Custom CSS for Profile Page -->
+<style>
+    /* Background styling */
+    body {
+        margin: 0;
+        padding: 0;
+        background: url('/images/transformers-bg.jpg') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    /* Background overlay to make content readable */
+    body:before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: -1;
+    }
+
+    /* Profile container */
+    .profile-container {
+        background: rgba(25, 25, 35, 0.85);
+        border-radius: 15px;
+        box-shadow: 0 0 30px rgba(81, 67, 217, 0.8), 
+                    0 0 60px rgba(203, 51, 255, 0.4);
+        padding: 30px;
+        margin-top: 30px;
+        border: 1px solid #6e42c1;
+        animation: profile-glow 3s infinite alternate;
+    }
+
+    @@keyframes profile-glow {
+        from {
+            box-shadow: 0 0 20px rgba(81, 67, 217, 0.8), 
+                      0 0 40px rgba(203, 51, 255, 0.4);
+        }
+        to {
+            box-shadow: 0 0 30px rgba(81, 67, 217, 0.8), 
+                      0 0 60px rgba(203, 51, 255, 0.8);
+        }
+    }
+
+    /* Headings */
+    h3 {
+        color: #f8f9fa;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 25px;
+        font-size: 28px;
+        background: linear-gradient(90deg, #5143d9, #cb33ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 10px rgba(81, 67, 217, 0.6);
+    }
+
+    /* Alert styling */
+    .alert {
+        background-color: rgba(33, 37, 41, 0.8);
+        border: 1px solid #cb33ff;
+        color: #f8f9fa;
+    }
+
+    /* Form controls */
+    .form-floating input {
+        background-color: rgba(33, 37, 41, 0.7);
+        border: 2px solid #6e42c1;
+        color: #f8f9fa;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .form-floating input:focus {
+        background-color: rgba(33, 37, 41, 0.9);
+        border-color: #cb33ff;
+        box-shadow: 0 0 15px rgba(203, 51, 255, 0.5);
+    }
+
+    .form-floating input:disabled {
+        background-color: rgba(33, 37, 41, 0.5);
+        color: #adb5bd;
+        cursor: not-allowed;
+    }
+
+    .form-floating label {
+        color: #adb5bd;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background: linear-gradient(45deg, #5143d9, #cb33ff);
+        border: none;
+        border-radius: 8px;
+        padding: 12px 20px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        margin-top: 15px;
+    }
+
+    .btn-primary:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #cb33ff, #5143d9);
+        transition: all 0.4s ease;
+        z-index: -1;
+    }
+
+    .btn-primary:hover:before {
+        left: 0;
+    }
+
+    .btn-primary:hover {
+        box-shadow: 0 0 20px rgba(203, 51, 255, 0.7);
+        transform: translateY(-2px);
+    }
+
+    /* Text colors */
+    .text-danger {
+        color: #ff5c8d !important;
+        text-shadow: 0 0 5px rgba(255, 92, 141, 0.3);
+    }
+
+    /* Profile icon */
+    .profile-icon {
+        display: block;
+        text-align: center;
+        margin-bottom: 20px;
+        animation: profile-pulse 2s infinite alternate;
+    }
+
+    @@keyframes profile-pulse {
+        from { transform: scale(1); }
+        to { transform: scale(1.1); text-shadow: 0 0 15px rgba(203, 51, 255, 0.6); }
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="profile-icon">
+                <i class="fas fa-user-circle fa-4x" style="color: #cb33ff;"></i>
+            </div>
+
+            <h3>
+                <i class="fas fa-id-card me-2"></i>
+                @ViewData["Title"]
+            </h3>
+
+            <partial name="_StatusMessage" model="@Model.StatusMessage" />
+
+
+            <div class="profile-container">
+                <form id="profile-form" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    
+                    <div class="form-floating mb-4 input-icon">
+                        <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
+                        <label asp-for="Username" class="form-label">
+                            <i class="fas fa-user me-2"></i>Username
+                        </label>
+                    </div>
+                    
+                    <div class="form-floating mb-4 input-icon">
+                        <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
+                        <label asp-for="Input.PhoneNumber" class="form-label">
+                            <i class="fas fa-phone me-2"></i>Phone Number
+                        </label>
+                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    
+                    <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        // Add some animation effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const formElements = document.querySelectorAll('.form-floating, .btn-primary, h3');
+            
+            formElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, 100 * (index + 1));
+            });
+        });
+    </script>
+}

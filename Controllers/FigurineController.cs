@@ -1,0 +1,159 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using MagazinFigurineApp.Context;
+using MagazinFigurineApp.Models;
+using MagazinFigurineApp.Services.Intefaces;
+using MagazinFigurineApp.Model;
+using Microsoft.AspNetCore.Authorization;
+
+namespace MagazinFigurineApp.Controllers
+{
+    public class FigurineController : Controller
+    {
+        private readonly IFigurineService _figurineService;
+
+        public FigurineController(IFigurineService figurineService)
+        {
+            _figurineService = figurineService;
+        }
+
+        [AllowAnonymous]
+        public IActionResult Index()
+        {
+            var figurine = _figurineService.GetAllFigurine();
+            var reviews = _figurineService.GetAllReviews();
+            var producator = _figurineService.GetAllProducatori();
+            var magazin = _figurineService.GetAllMagazine();
+
+            return View(figurine);
+        }
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var figurina = _figurineService.GetFigurinaById(id.Value);
+
+            if (figurina == null)
+            {
+                return NotFound();
+            }
+
+            return View(figurina);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Create()
+        {
+            var figurine = _figurineService.GetAllFigurine();
+            var reviews = _figurineService.GetAllReviews();
+            var producator = _figurineService.GetAllProducatori();
+            var magazin = _figurineService.GetAllMagazine();
+            ViewData["ProducatorID"] = new SelectList(producator, "ID", "Nume");
+            ViewData["MagazinID"] = new SelectList(magazin, "MagazinID", "Nume");
+            return View();
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("FigurinaID,Nume,Pret,Trilogie,DataLansare,Descriere,SKU,Stoc,ProducatorID,Recenzii,ComenziFigurine,MagazinID,ImageFile")] Figurina figurina)
+        {
+            figurina.DataLansare = figurina.DataLansare.ToUniversalTime();
+            var figurine = _figurineService.GetAllFigurine();
+            _figurineService.AddFigurina(figurina);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var figurina = _figurineService.GetFigurinaById(id.Value);
+
+            if (_figurineService == null)
+            {
+                return NotFound();
+            }
+
+            var producator = _figurineService.GetAllProducatori();
+            var magazin = _figurineService.GetAllMagazine();
+            ViewData["ProducatorID"] = new SelectList(producator, "ID", "Nume");
+            ViewData["MagazinID"] = new SelectList(magazin, "MagazinID", "Nume");
+
+            return View(figurina);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("FigurinaID,Nume,Pret,Trilogie,DataLansare,Descriere,SKU,Stoc,ProducatorID,Recenzii,ComenziFigurine,MagazinID,ImageFile")] Figurina figurina)
+        {
+            if (id != figurina.FigurinaID)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                figurina.DataLansare = figurina.DataLansare.ToUniversalTime();
+                await _figurineService.UpdateFigurina(figurina);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_figurineService.FigurinaExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var figurina = _figurineService.GetFigurinaById(id.Value);
+
+            if (figurina == null)
+            {
+                return NotFound();
+            }
+
+            return View(figurina);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var figurina = _figurineService.GetFigurinaById(id);
+            if (figurina != null)
+            {
+                _figurineService.DeleteFigurina(id);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+    }
+}

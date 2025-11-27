@@ -1,0 +1,77 @@
+﻿@model MagazinFigurineApp.Models.Figurina
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Figurina</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger" ></div>
+            <div class="form-group">
+                <label asp-for="Nume" class="control-label"></label>
+                <input asp-for="Nume" class="form-control" />
+                <span asp-validation-for="Nume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pret" class="control-label"></label>
+                <input asp-for="Pret" class="form-control" />
+                <span asp-validation-for="Pret" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trilogie" class="control-label"></label>
+                <input asp-for="Trilogie" class="form-control" />
+                <span asp-validation-for="Trilogie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataLansare" class="control-label"></label>
+                <input asp-for="DataLansare" type="date" class="form-control" />
+                <span asp-validation-for="DataLansare" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descriere" class="control-label"></label>
+                <textarea asp-for="Descriere" class="form-control" ></textarea>
+                <span asp-validation-for="Descriere" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SKU" class="control-label"></label>
+                <input asp-for="SKU" class="form-control" />
+                <span asp-validation-for="SKU" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Stoc" class="control-label"></label>
+                <input asp-for="Stoc" class="form-control" />
+                <span asp-validation-for="Stoc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProducatorID" class="control-label">Producator</label>
+                <select asp-for="ProducatorID" class ="form-control" asp-items="ViewBag.ProducatorID" ></select>
+            </div>
+            <div class="form-group">   
+                   <label asp-for="MagazinID" class="control-label">Magazin</label>  
+                  <select asp-for="MagazinID" class="form-control" asp-items="ViewBag.MagazinID" ></select>  
+                  @* <span asp-validation-for="MagazinID" class="text-danger"></span>  *@
+               </div> 
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" class="form-control" type="file" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">  
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
