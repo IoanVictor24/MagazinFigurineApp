@@ -27,6 +27,17 @@ namespace MagazinFigurineApp.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-        }
+            // Îi spunem explicit că ProducatorID este cheia străină, 
+            // NU DescriereDetaliata
+            modelBuilder.Entity<Figurina>()
+                .HasOne(f => f.Producator)
+                .WithMany(p => p.Figurine) // Asigură-te că în clasa Producator ai ICollection<Figurina> Figurine
+                .HasForeignKey(f => f.ProducatorID)
+                .IsRequired(false); // Fiind int? (nullable)
+
+            // Forțăm și cheia primară să fie FigurinaID pentru siguranță
+            modelBuilder.Entity<Figurina>().HasKey(f => f.FigurinaID);
+        
+    }
     }
 }

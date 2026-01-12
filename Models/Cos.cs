@@ -1,25 +1,21 @@
-﻿using MagazinFigurineApp.Models;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 
 namespace MagazinFigurineApp.Models
 {
     public class Cos
     {
         [Key]
-        public int Id { get; set; }
+        public int CosID { get; set; }
 
-        [Required]
         public string UtilizatorId { get; set; }
 
-        [ForeignKey("Figurina")]
+        // Sincronizat: 'Id' cu d mic
         public int FigurinaId { get; set; }
 
-        public Figurina Figurina { get; set; }
+        public int Cantitate { get; set; }
 
-        public int Cantitate { get; set; } = 1;
-
-        [NotMapped]
-        public decimal Subtotal => Figurina?.Pret * Cantitate ?? 0;
+        [ForeignKey("FigurinaId")]
+        public virtual Figurina Figurina { get; set; }
     }
 }

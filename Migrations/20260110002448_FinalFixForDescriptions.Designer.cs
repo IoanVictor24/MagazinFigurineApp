@@ -4,6 +4,7 @@ using MagazinFigurineApp.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MagazinFigurineApp.Migrations
 {
     [DbContext(typeof(MagazinFigurineContext))]
-    partial class MagazinFigurineContextModelSnapshot : ModelSnapshot
+    [Migration("20260110002448_FinalFixForDescriptions")]
+    partial class FinalFixForDescriptions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,9 +158,6 @@ namespace MagazinFigurineApp.Migrations
 
                     b.Property<byte[]>("ImagineFigurina")
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("ImagineUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MagazinID")
                         .HasColumnType("int");

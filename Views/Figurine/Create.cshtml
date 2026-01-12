@@ -55,10 +55,10 @@
                    <label asp-for="MagazinID" class="control-label">Magazin</label>  
                   <select asp-for="MagazinID" class="form-control" asp-items="ViewBag.MagazinID" ></select>  
                   @* <span asp-validation-for="MagazinID" class="text-danger"></span>  *@
-               </div> 
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" class="form-control" type="file" />
+               </div>
+            <div class="form-group mb-3">
+                <label asp-for="ImageFile" class="control-label">Imagine Figurină</label>
+                <input asp-for="ImageFile" type="file" class="form-control" />
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">  

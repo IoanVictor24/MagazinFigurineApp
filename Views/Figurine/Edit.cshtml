@@ -1,79 +1,78 @@
 ﻿@model MagazinFigurineApp.Models.Figurina
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editare Figurină";
 }
 
-<h1>Edit</h1>
+<div class="container mt-4">
+    <h1>Editează: @Model.Nume</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-8">
+            @* Am mărit coloana pentru a avea loc de descrieri *@
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="FigurinaID" />
+                <input type="hidden" asp-for="ImagineUrl" /> @* Păstrăm URL-ul vechi dacă nu punem poză nouă *@
 
-<h4>Figurina</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="FigurinaID" />
-            <div class="form-group">
-                <label asp-for="Nume" class="control-label"></label>
-                <input asp-for="Nume" class="form-control" />
-                <span asp-validation-for="Nume" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pret" class="control-label"></label>
-                <input asp-for="Pret" class="form-control" />
-                <span asp-validation-for="Pret" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Trilogie" class="control-label"></label>
-                <input asp-for="Trilogie" class="form-control" />
-                <span asp-validation-for="Trilogie" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataLansare" class="control-label"></label>
-                <input asp-for="DataLansare" class="form-control" />
-                <span asp-validation-for="DataLansare" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Descriere" class="control-label"></label>
-                <input asp-for="Descriere" class="form-control" />
-                <span asp-validation-for="Descriere" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SKU" class="control-label"></label>
-                <input asp-for="SKU" class="form-control" />
-                <span asp-validation-for="SKU" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Stoc" class="control-label"></label>
-                <input asp-for="Stoc" class="form-control" />
-                <span asp-validation-for="Stoc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProducatorID" class="control-label"></label>
-                <select asp-for="ProducatorID" class="form-control" asp-items="ViewBag.ProducatorID"></select>
-                <span asp-validation-for="ProducatorID" class="text-danger"></span>
-            </div>
-            <div class="form-group"> 
-                 <label asp-for="MagazinID" class="control-label"></label> 
-                 <select asp-for="MagazinID" class="form-control" asp-items="ViewBag.MagazinID"></select> 
-                 <span asp-validation-for="MagazinID" class="text-danger"></span> 
-             </div>
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" class="form-control" type="file"/>
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Nume" class="control-label fw-bold"></label>
+                        <input asp-for="Nume" class="form-control" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Pret" class="control-label fw-bold"></label>
+                        <input asp-for="Pret" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Descriere" class="control-label fw-bold">Descriere Scurtă</label>
+                    <textarea asp-for="Descriere" class="form-control" rows="2"></textarea>
+                </div>
+
+                @* --- CÂMPURILE NOI --- *@
+                <div class="mb-3">
+                    <label asp-for="PovestePersonaj" class="control-label fw-bold">Povestea Personajului (Lore)</label>
+                    <textarea asp-for="PovestePersonaj" class="form-control" rows="5"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DescriereDetaliata" class="control-label fw-bold">Specificații Tehnice</label>
+                    <textarea asp-for="DescriereDetaliata" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="SKU" class="control-label fw-bold"></label>
+                        <input asp-for="SKU" class="form-control" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Stoc" class="control-label fw-bold"></label>
+                        <input asp-for="Stoc" class="form-control" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Trilogie" class="control-label fw-bold"></label>
+                        <input asp-for="Trilogie" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ImageFile" class="control-label fw-bold">Schimbă Imaginea (opțional)</label>
+                    <input asp-for="ImageFile" class="form-control" type="file" />
+                </div>
+
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Salvează Modificările</button>
+                    <a asp-action="Index" class="btn btn-secondary btn-lg">Anulează</a>
+                </div>
+            </form>
+        </div>
+
+        @* Previzualizare imagine curentă *@
+        <div class="col-md-4 text-center">
+            <p class="fw-bold">Imagine curentă:</p>
+            <img src="/images/figurine/@Model.ImagineUrl" class="img-thumbnail" style="max-height: 300px;" onerror="this.src='/images/default-item.png'" />
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

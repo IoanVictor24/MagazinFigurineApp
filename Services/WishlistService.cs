@@ -21,13 +21,13 @@ namespace MagazinFigurineApp.Services
             {
                 await _repository.AdaugaInWishlist(new Wishlist
                 {
-                    UtilizatorId = userId,
+                    UserId = userId,
                     FigurinaId = figurinaId
                 });
             }
         }
 
-        public async Task<List<Wishlist>> GetWishlist(string userId)
+        public async Task<List<MagazinFigurineApp.Models.Wishlist>> GetWishlist(string userId)
         {
             return await _repository.GetWishlistByUserId(userId);
         }

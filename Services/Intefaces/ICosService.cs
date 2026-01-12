@@ -10,5 +10,6 @@ namespace MagazinFigurineApp.Services.Intefaces
         Task StergeDinCos(int id);
         Task<decimal> CalculeazaTotal(string userId);
         Task GolesteCos(string userId);
+        Task StergeDinCos(object cosID);
     }
 }

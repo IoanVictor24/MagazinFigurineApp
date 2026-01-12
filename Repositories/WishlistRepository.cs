@@ -1,4 +1,5 @@
 ﻿using MagazinFigurineApp.Context;
+using MagazinFigurineApp.Models;
 using Microsoft.EntityFrameworkCore;
 
 public class WishlistRepository : IWishlistRepository
@@ -19,7 +20,7 @@ public class WishlistRepository : IWishlistRepository
     {
         return await _context.Wishlisturi
             .Include(w => w.Figurina)
-            .Where(w => w.UtilizatorId == userId)
+            .Where(w => w.UserId == userId)
             .ToListAsync();
     }
 
@@ -36,6 +37,6 @@ public class WishlistRepository : IWishlistRepository
     public bool ExistaInWishlist(string userId, int figurinaId)
     {
         return _context.Wishlisturi
-            .Any(w => w.UtilizatorId == userId && w.FigurinaId == figurinaId);
+            .Any(w => w.UserId == userId && w.FigurinaId == figurinaId);
     }
 }
