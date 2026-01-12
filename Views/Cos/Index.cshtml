@@ -26,13 +26,16 @@
                     {
                         <tr>
                             <td>
-                                <img src="/images/figurine/@item.Figurina.ImagineUrl" class="rounded" style="width: 60px;" onerror="this.src='/images/default-item.png'" />
-                            </td>
+                                <img src="@(item.Figurina.ImagineFigurina != null
+                        ? $"data:image/jpeg;base64,{Convert.ToBase64String(item.Figurina.ImagineFigurina)}"
+                        : Url.Content("~/images/default.jpg"))"
+                                     alt="@item.Figurina.Nume"
+                                      />
                             <td class="fw-bold">@item.Figurina.Nume</td>
                             <td>@item.Figurina.Pret.ToString("C2")</td>
                             <td>
                                 <form asp-action="ActualizeazaCantitate" method="post" class="d-flex">
-                                    <input type="hidden" name="cosId" value="@item.CosID" />
+                                    <input type="hidden" name="cosId" value="@item.Id" />
                                     <input type="number" name="cantitate" value="@item.Cantitate" min="1" class="form-control form-control-sm me-1" />
                                     <button type="submit" class="btn btn-sm btn-info text-white">OK</button>
                                 </form>
@@ -40,7 +43,7 @@
                             <td class="fw-bold">@((item.Figurina.Pret * item.Cantitate).ToString("C2"))</td>
                             <td>
                                 <form asp-action="Sterge" method="post">
-                                    <input type="hidden" name="id" value="@item.CosID" />
+                                    <input type="hidden" name="id" value="@item.Id" />
                                     <button type="submit" class="btn btn-sm btn-outline-danger">Șterge</button>
                                 </form>
                             </td>

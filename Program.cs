@@ -37,6 +37,9 @@ builder.Services.AddScoped<IProducatorService, ProducatorService>();
 builder.Services.AddScoped<IMagazinRepository, MagazinRepository>();
 builder.Services.AddScoped<IMagazinService, MagazinService>();
 
+builder.Services.AddScoped<IComandaRepository, ComandaRepository>();
+builder.Services.AddScoped<IComandaService, ComandaService>();  
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();

@@ -4,9 +4,21 @@
     <div class="row bg-white shadow-sm rounded p-4">
         @* Coloana Stânga: Imagine *@
         <div class="col-md-6 text-center border-end">
-            <img src="/images/figurine/@Model.ImagineUrl"
-                 class="img-fluid rounded" style="max-height: 500px;"
-                 onerror="this.src='/images/default-item.png'" alt="@Model.Nume" />
+            @if (Model.ImagineFigurina != null)
+            {
+                @* Folosim o cale directă, fără Url.Content dacă acesta dă erori de randare *@
+                <img src="@(Model.ImagineFigurina != null
+                        ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.ImagineFigurina)}"
+                        : Url.Content("~/images/default.jpg"))"
+                     alt="@Model.Nume" />
+            }
+            else
+            {
+                <img src="/images/default-item.png"
+                     class="card-img-top h-100 w-100"
+                     style="object-fit: contain;"
+                     alt="Imagine indisponibilă">
+            }
         </div>
 
         @* Coloana Dreapta: Info *@

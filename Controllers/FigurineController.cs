@@ -71,30 +71,38 @@ namespace MagazinFigurineApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FigurinaID,Nume,Pret,Trilogie,DataLansare,Descriere,DescriereDetaliata,PovestePersonaj,SKU,Stoc,ProducatorID,MagazinID,ImageFile")] Figurina figurina)
         {
-            if (figurina.ImageFile != null)
-            {
-                // Stabilim calea folosind _hostEnvironment
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(figurina.ImageFile.FileName);
-                string productPath = Path.Combine(wwwRootPath, @"images\figurine");
+            //if (figurina.ImageFile != null)
+            //{
+            //    // Stabilim calea folosind _hostEnvironment
+            //    string wwwRootPath = _hostEnvironment.WebRootPath;
+            //    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(figurina.ImageFile.FileName);
+            //    string productPath = Path.Combine(wwwRootPath, @"images\figurine");
 
-                // --- SOLUȚIA: Creăm folderul dacă nu există ---
-                if (!Directory.Exists(productPath))
-                {
-                    Directory.CreateDirectory(productPath);
-                }
+            //    // --- SOLUȚIA: Creăm folderul dacă nu există ---
+            //    if (!Directory.Exists(productPath))
+            //    {
+            //        Directory.CreateDirectory(productPath);
+            //    }
 
-                string fullPath = Path.Combine(productPath, fileName);
+            //    string fullPath = Path.Combine(productPath, fileName);
 
-                using (var fileStream = new FileStream(fullPath, FileMode.Create))
-                {
-                    await figurina.ImageFile.CopyToAsync(fileStream);
-                }
+            //    using (var fileStream = new FileStream(fullPath, FileMode.Create))
+            //    {
+            //        await figurina.ImageFile.CopyToAsync(fileStream);
+            //    }
 
-                figurina.ImagineUrl = fileName;
-            }
+            //    figurina.ImagineUrl = fileName;
+            //}
+            //if (figurina.ImageFile != null && figurina.ImageFile.Length > 0)
+            //{
+            //    using (var ms = new MemoryStream())
+            //    {
+            //        await figurina.ImageFile.CopyToAsync(ms);
+            //        figurina.ImagineFigurina = ms.ToArray();
+            //    }
+            //}
 
-            figurina.DataLansare = figurina.DataLansare.ToUniversalTime();
+            //figurina.DataLansare = figurina.DataLansare.ToUniversalTime();
             _figurineService.AddFigurina(figurina);
             return RedirectToAction(nameof(Index));
         }

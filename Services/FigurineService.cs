@@ -27,6 +27,7 @@ namespace MagazinFigurineApp.Services
                     figurina.ImagineFigurina = ms.ToArray();
                 }
             }
+            figurina.DataLansare = figurina.DataLansare.ToUniversalTime();
             _figurineRepository.Create(figurina);
             _figurineRepository.Save();
         }

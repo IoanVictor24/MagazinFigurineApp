@@ -1,16 +1,79 @@
-﻿using MagazinFigurineApp.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using MagazinFigurineApp.Context;
+using Microsoft.EntityFrameworkCore;
+using MagazinFigurineApp.Models;
+using MagazinFigurineApp.Repositories.Interfaces;
 
-namespace MagazinFigurineApp.Repositories.Interfaces
+namespace MagazinFigurineApp.Repositories
 {
-    public interface ICosRepository
+    public class CosRepository : ICosRepository
     {
-        Task AdaugaInCos(Cos item);
-        Task<List<Cos>> GetCosByUserId(string userId);
-        Task ActualizeazaCantitate(int cosId, int cantitate);
-        Task StergeDinCos(int id);
-        Task<decimal> CalculeazaTotal(string userId);
-        Task<Cos> GetItemById(int id);
+        private readonly MagazinFigurineContext _context;
+        public CosRepository(MagazinFigurineContext context)
+        {
+            _context = context;
+        }
+
+        public Task ActualizeazaCantitate(int cosId, int cantitate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task AdaugaInCos(Cos item)
+        {
+            var existingItem = await _context.Cosuri
+                .FirstOrDefaultAsync(c => c.UtilizatorId == item.UtilizatorId && c.FigurinaId == item.FigurinaId);
+
+            if (existingItem != null)
+            {
+                existingItem.Cantitate += item.Cantitate;
+            }
+            else
+            {
+                _context.Cosuri.Add(item);
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Cos>> GetCosByUserId(string userId)
+        {
+            return await _context.Cosuri
+                .Include(c => c.Figurina)
+                .Where(c => c.UtilizatorId == userId)
+                .ToListAsync();
+        }
+
+        public Task<Cos> GetItemById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task StergeDinCos(int id)
+        {
+            var item = await _context.Cosuri.FindAsync(id);
+            if (item != null)
+            {
+                _context.Cosuri.Remove(item);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<decimal> CalculeazaTotal(string userId)
+        {
+            // Verificăm dacă există produse pentru acest user
+            var items = await _context.Cosuri
+                .Include(c => c.Figurina)
+                .Where(c => c.UtilizatorId == userId)
+                .ToListAsync();
+
+            if (items == null || !items.Any())
+            {
+                return 0;
+            }
+
+            // Calculăm suma: Cantitate * Preț Figurină
+            return items.Sum(c => c.Cantitate * c.Figurina.Pret);
+        }
+
+        // Alte metode...
     }
 }

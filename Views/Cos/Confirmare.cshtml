@@ -1,11 +1,30 @@
-﻿<div class="container mt-5 text-center p-5">
-    <div class="card shadow border-0 p-5">
-        <h1 class="display-1 text-success"><i class="bi bi-check-circle-fill"></i></h1>
-        <h1 class="display-4 fw-bold">Comandă Plasată!</h1>
-        <p class="lead mt-3">Comanda ta a fost înregistrată cu succes în magazinul nostru de figurine.</p>
-        <p class="text-muted">Îți vom trimite un email când pachetul va fi expediat.</p>
-        <div class="mt-5">
-            <a asp-controller="Figurine" asp-action="Index" class="btn btn-primary btn-lg">Înapoi la Catalog</a>
+﻿@{
+    ViewData["Title"] = "Comandă Plasată";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card shadow-sm border-0 p-5">
+                <div class="mb-4">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+                </div>
+
+                <h1 class="display-4 fw-bold text-success mb-3">Mulțumim!</h1>
+                <h2 class="h4 mb-4">Comanda ta a fost plasată cu succes.</h2>
+
+                <p class="lead text-muted mb-5">
+                    Datele au fost salvate și vei primi produsele în curând.
+                    <br />
+                    Un email de confirmare a fost trimis către adresa ta.
+                </p>
+
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                    <a asp-controller="Figurine" asp-action="Index" class="btn btn-primary btn-lg px-4 gap-3">
+                        Înapoi la Magazin
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
