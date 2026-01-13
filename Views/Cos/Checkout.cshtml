@@ -3,62 +3,76 @@
     ViewData["Title"] = "Finalizare Comandă";
 }
 
-<div class="container mt-5 mb-5">
+<style>
+    /* Header Checkout */
+    .checkout-header {
+        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        padding: 100px 0 50px 0;
+        margin-top: -80px;
+        color: white;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+</style>
+
+<div class="checkout-header">
+    <div class="container">
+        <h2 class="fw-bold">Date Livrare & Plată</h2>
+        <p class="text-white-50">Ultimul pas pentru a primi comanda</p>
+    </div>
+</div>
+
+<div class="container mb-5">
     <div class="row">
-        <div class="col-md-8">
-            <div class="card shadow-sm p-4 border-0">
-                <h3 class="mb-4 fw-bold"><i class="bi bi-truck"></i> Detalii de Livrare</h3>
+        @* FORMULAR LIVRARE *@
+        <div class="col-lg-8">
+            <div class="card shadow border-0 p-4 mb-4">
+                <h4 class="mb-4 text-secondary"><i class="bi bi-geo-alt-fill me-2"></i> Adresa de Livrare</h4>
 
                 <form asp-action="ProceseazaComanda" method="post">
-
-                    @* Setăm automat metoda de plată pentru baza de date *@
+                    @* Câmp ascuns pentru metoda de plată - NECESAR PENTRU LOGICĂ *@
                     <input type="hidden" asp-for="MetodaPlata" value="Ramburs (Cash la Livrare)" />
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
+                    <div class="row g-3">
+                        <div class="col-md-6">
                             <label class="form-label fw-bold">Email</label>
-                            <input asp-for="Email" class="form-control" placeholder="exemplu@mail.com" required />
+                            <input asp-for="Email" class="form-control form-control-lg bg-light" placeholder="nume@email.com" required />
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6">
                             <label class="form-label fw-bold">Telefon</label>
-                            <input asp-for="Telefon" class="form-control" placeholder="07xx xxx xxx" required />
+                            <input asp-for="Telefon" class="form-control form-control-lg bg-light" placeholder="07xx xxx xxx" required />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Adresa Completă</label>
+                            <textarea asp-for="Adresa" class="form-control bg-light" rows="3" placeholder="Județ, Oraș, Stradă, Număr..." required></textarea>
                         </div>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="form-label fw-bold">Adresa Completă</label>
-                        <textarea asp-for="Adresa" class="form-control" rows="3" placeholder="Strada, Număr, Bloc, Scara, Apartament, Localitate..." required></textarea>
-                    </div>
-
-                    <h4 class="border-top pt-4 mb-3 fw-bold">Metodă de Plată</h4>
-
-                    @* Alertă informativă pentru Plata Ramburs *@
-                    <div class="alert alert-success d-flex align-items-center" role="alert">
-                        <i class="bi bi-cash-stack fs-3 me-3"></i>
+                    <div class="mt-4 p-3 border rounded bg-light d-flex align-items-center">
+                        <i class="bi bi-cash-stack fs-2 text-success me-3"></i>
                         <div>
-                            <strong>Plata la Livrare (Ramburs)</strong>
-                            <div class="small">Veți achita suma de <strong class="text-decoration-underline">@ViewBag.TotalFinal.ToString("C2")</strong> direct curierului în momentul primirii coletului.</div>
+                            <h6 class="fw-bold mb-0">Plată Ramburs</h6>
+                            <small class="text-muted">Plătești curierului la primirea coletului.</small>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-success btn-lg w-100 mt-3 shadow fw-bold py-3">
-                        <i class="bi bi-check-circle-fill me-2"></i> Plasează Comanda
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mt-4 rounded-pill shadow fw-bold py-3">
+                        PLASEAZĂ COMANDA
                     </button>
                 </form>
             </div>
         </div>
 
-        @* Coloana din dreapta cu sumarul *@
-        <div class="col-md-4">
-            <div class="card bg-light border-0 p-4 sticky-top" style="top: 20px;">
-                <h4 class="fw-bold text-secondary">Sumar Comandă</h4>
-                <hr />
-                <div class="d-flex justify-content-between align-items-center mt-3">
+        @* SUMAR DREAPTA *@
+        <div class="col-lg-4">
+            <div class="card bg-white border shadow-sm p-4 sticky-top" style="top: 100px;">
+                <h5 class="fw-bold mb-3 text-uppercase text-muted small ls-1">Sumar Plată</h5>
+                <div class="d-flex justify-content-between align-items-center mb-3">
                     <span class="fs-5">Total de plată:</span>
-                    <strong class="h3 text-primary m-0">@ViewBag.TotalFinal.ToString("C2")</strong>
+                    <strong class="h3 text-primary m-0">@ViewBag.TotalFinal.ToString("C0")</strong>
                 </div>
-                <div class="mt-3 text-muted small">
-                    <i class="bi bi-info-circle"></i> Transportul este inclus în preț.
+                <div class="alert alert-info small mb-0">
+                    <i class="bi bi-info-circle me-1"></i> Transportul este inclus.
                 </div>
             </div>
         </div>

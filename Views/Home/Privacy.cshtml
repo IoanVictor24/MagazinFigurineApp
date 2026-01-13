@@ -1,6 +1,73 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Politica de Confidențialitate";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<style>
+    .privacy-header {
+        background-color: #212529;
+        padding: 140px 0 60px 0;
+        margin-top: -100px;
+        color: white;
+        margin-bottom: 50px;
+    }
+
+    .content-section h3 {
+        margin-top: 30px;
+        color: #0d6efd;
+        font-weight: 600;
+    }
+
+    .content-section ul {
+        margin-bottom: 20px;
+    }
+
+    .content-section p {
+        line-height: 1.7;
+        color: #555;
+    }
+</style>
+
+<div class="privacy-header text-center">
+    <div class="container">
+        <h1 class="fw-bold">Politica de Confidențialitate</h1>
+        <p class="text-white-50">Ultima actualizare: @DateTime.Now.Year</p>
+    </div>
+</div>
+
+<div class="container mb-5 content-section" style="max-width: 800px;">
+    <p class="lead text-dark fw-bold">
+        La "Universul Figurinelor", respectăm intimitatea clienților noștri și ne angajăm să protejăm datele dumneavoastră personale. Această politică explică ce informații colectăm și cum le folosim.
+    </p>
+
+    <h3>1. Informațiile pe care le colectăm</h3>
+    <p>Putem colecta următoarele tipuri de informații:</p>
+    <ul>
+        <li><strong>Date de identificare:</strong> Nume, prenume, adresă de email, număr de telefon.</li>
+        <li><strong>Date de livrare:</strong> Adresa fizică pentru expedierea comenzilor.</li>
+        <li><strong>Date tehnice:</strong> Adresa IP, tipul de browser și informații despre dispozitivul utilizat pentru a accesa site-ul.</li>
+    </ul>
+
+    <h3>2. Cum folosim datele dumneavoastră</h3>
+    <p>Utilizăm informațiile colectate exclusiv pentru:</p>
+    <ul>
+        <li>Procesarea și livrarea comenzilor plasate pe site.</li>
+        <li>Comunicarea stării comenzii (confirmare, expediere).</li>
+        <li>Îmbunătățirea experienței de navigare pe site-ul nostru.</li>
+        <li>Obligații legale și fiscale (facturare).</li>
+    </ul>
+
+    <h3>3. Securitatea Datelor</h3>
+    <p>
+        Implementăm măsuri de securitate tehnice și organizatorice pentru a proteja datele dumneavoastră împotriva accesului neautorizat, modificării sau distrugerii. Folosim conexiuni criptate (SSL) pentru toate transmisiile de date sensibile.
+    </p>
+
+    <h3>4. Cookie-uri</h3>
+    <p>
+        Site-ul nostru folosește cookie-uri pentru a reține produsele din coșul de cumpărături și pentru a vă menține autentificat. Puteți gestiona preferințele cookie din setările browserului dumneavoastră.
+    </p>
+
+    <h3>5. Contact</h3>
+    <p>
+        Pentru orice întrebări referitoare la această politică sau pentru a solicita ștergerea datelor dumneavoastră, ne puteți contacta la adresa de email: <strong>suport@universulfigurinelor.ro</strong>.
+    </p>
+</div>

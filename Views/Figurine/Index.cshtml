@@ -5,18 +5,78 @@
     ViewData["Title"] = "Catalog Figurine";
 }
 
-<div class="container mt-4">
+@* --- ZONA DE STILIZARE MODERNĂ --- *@
+<style>
+    /* 1. Header-ul cu Eroi și Efect Întunecat/Blurat */
+    .hero-header {
+        /* Imagine de fundal cu eroi (Marvel) + Overlay întunecat */
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?q=80&w=2000&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        padding: 120px 0 80px 0; /* Spațiu mare sus pentru meniul transparent */
+        margin-top: -100px; /* Truc pentru a urca sub navbar */
+        margin-bottom: 40px;
+        color: white;
+        text-align: center;
+        border-radius: 0 0 30px 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    /* Titlul "Universul Figurinelor" */
+    .hero-title {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-size: 3.5rem;
+        background: -webkit-linear-gradient(#fff, #aaa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    /* Modernizare Carduri */
+    .product-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 15px !important;
+        overflow: hidden;
+        background-color: white;
+    }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2) !important;
+        }
+
+    /* Stilizare butoane să fie mai rotunjite */
+    .btn {
+        border-radius: 50px;
+    }
+</style>
+
+@* --- SECȚIUNEA NOUĂ: HERO HEADER --- *@
+<div class="hero-header">
+    <div class="container">
+        <h1 class="hero-title">Universul Figurinelor</h1>
+        <p class="lead text-white-50">Descoperă eroii care prind viață în colecția ta</p>
+    </div>
+</div>
+
+@* --- STRUCTURA TA ORIGINALĂ (NEMODIFICATĂ FUNCȚIONAL) --- *@
+<div class="container mt-4 mb-5">
+
+    @* Titlul original l-am ascuns sau îl putem lăsa mic, dar "Universul Figurinelor" e acum principal *@
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="display-5 fw-bold text-dark">Colecția Noastră</h1>
+        <h2 class="fw-bold text-secondary">Colecția Noastră</h2>
         @if (User.IsInRole("Administrator"))
         {
-            <a asp-action="Create" class="btn btn-primary shadow-sm">
+            <a asp-action="Create" class="btn btn-primary shadow-sm px-4">
                 <i class="bi bi-plus-circle"></i> Adaugă Figurină Nouă
             </a>
         }
     </div>
 
-    @* --- GRID DE FIGURINE --- *@
+    @* --- GRID DE FIGURINE (LOGICĂ ORIGINALĂ PĂSTRATĂ 100%) --- *@
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         @foreach (var item in Model)
         {
@@ -28,23 +88,24 @@
                         {
                             @* Folosim o cale directă, fără Url.Content dacă acesta dă erori de randare *@
                             <img src="@(item.ImagineFigurina != null
-                        ? $"data:image/jpeg;base64,{Convert.ToBase64String(item.ImagineFigurina)}"
-                        : Url.Content("~/images/default.jpg"))"
-                            alt="@item.Nume" />
+                                ? $"data:image/jpeg;base64,{Convert.ToBase64String(item.ImagineFigurina)}"
+                                : Url.Content("~/images/default.jpg"))"
+                                 class="card-img-top h-100 w-100" style="object-fit: contain; padding: 10px;"
+                                 alt="@item.Nume" />
                         }
                         else
                         {
                             <img src="/images/default-item.png"
-                            class="card-img-top h-100 w-100"
-                            style="object-fit: contain;"
-                            alt="Imagine indisponibilă">
+                                 class="card-img-top h-100 w-100"
+                                 style="object-fit: contain;"
+                                 alt="Imagine indisponibilă">
                         }
                     </div>
 
-                    <div class="card-body d-flex flex-column">
+                    <div class="card-body d-flex flex-column text-center">
                         <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">@item.Trilogie</small>
-                        <h5 class="card-title mb-1 text-truncate">@item.Nume</h5>
-                        <p class="card-text fw-bold text-primary mb-3">@item.Pret.ToString("C2")</p>
+                        <h5 class="card-title mb-2 text-truncate fw-bold">@item.Nume</h5>
+                        <p class="card-text fw-bold text-primary mb-3 fs-5">@item.Pret.ToString("C2")</p>
 
                         <div class="mt-auto">
                             @* Buton Detalii - Accesibil tuturor *@
@@ -55,27 +116,28 @@
                             @* Logică de Coș pentru User *@
                             @if (User.IsInRole("User") || User.IsInRole("Admin"))
                             {
-                                <form asp-controller="Cos" asp-action="Adauga" method="post">
+                                <form asp-controller="Cos" asp-action="Adauga" method="post" class="mb-2">
                                     <input type="hidden" name="figurinaId" value="@item.FigurinaID" />
                                     <input type="hidden" name="cantitate" value="1" />
-                                    <button type="submit" class="btn btn-success btn-sm w-100 @(item.Stoc <= 0 ? "disabled" : "")">
-                                        <i class="bi bi-cart-plus"></i> Adaugă în coș
+                                    <button type="submit" class="btn btn-primary btn-sm w-100 shadow-sm @(item.Stoc <= 0 ? "disabled" : "")">
+                                        <i class="bi bi-cart-plus me-1"></i> Adaugă în coș
                                     </button>
                                 </form>
 
                                 <form asp-controller="Wishlist" asp-action="Adauga" method="post">
                                     <input type="hidden" name="figurinaId" value="@item.FigurinaID" />
-                                    <button type="submit" class="btn btn-success btn-sm w-100">
-                                        <i class="bi bi-cart-plus"></i> Adaugă la favorite
+                                    <button type="submit" class="btn btn-outline-danger btn-sm w-100">
+                                        <i class="bi bi-heart me-1"></i> Favorite
                                     </button>
                                 </form>
                             }
+
                             @* Butoane Administrative *@
                             @if (User.IsInRole("Administrator"))
                             {
-                                <div class="d-flex gap-1 mt-2 border-top pt-2">
-                                    <a asp-action="Edit" asp-route-id="@item.FigurinaID" class="btn btn-light btn-sm flex-grow-1 text-muted">Edit</a>
-                                    <a asp-action="Delete" asp-route-id="@item.FigurinaID" class="btn btn-light btn-sm flex-grow-1 text-danger">Delete</a>
+                                <div class="d-flex gap-1 mt-3 border-top pt-2">
+                                    <a asp-action="Edit" asp-route-id="@item.FigurinaID" class="btn btn-light btn-sm flex-grow-1 text-warning"><i class="bi bi-pencil"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.FigurinaID" class="btn btn-light btn-sm flex-grow-1 text-danger"><i class="bi bi-trash"></i></a>
                                 </div>
                             }
                         </div>
@@ -85,19 +147,3 @@
         }
     </div>
 </div>
-
-<style>
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-    }
-
-    .transition-all {
-        transition: all 0.3s ease;
-    }
-
-    .object-fit-cover {
-        object-fit: contain;
-        background: #f8f9fa;
-    }
-</style>

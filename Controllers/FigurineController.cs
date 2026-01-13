@@ -107,6 +107,26 @@ namespace MagazinFigurineApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Edit(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var figurina = _figurineService.GetFigurinaById(id.Value);
+            if (figurina == null) return NotFound();
+
+            // Re-populăm dropdown-urile pentru editare
+            var producator = _figurineService.GetAllProducatori();
+            var magazin = _figurineService.GetAllMagazine();
+            ViewData["ProducatorID"] = new SelectList(producator, "ID", "Nume", figurina.ProducatorID);
+            ViewData["MagazinID"] = new SelectList(magazin, "MagazinID", "Nume", figurina.MagazinID);
+
+            return View(figurina);
+        }
+
+
+
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]

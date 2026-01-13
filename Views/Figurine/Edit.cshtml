@@ -4,25 +4,31 @@
     ViewData["Title"] = "Editare Figurină";
 }
 
-<div class="container mt-4">
-    <h1>Editează: @Model.Nume</h1>
+<div class="container mt-4 mb-5">
+    <h1>Editează: <span class="text-primary">@Model.Nume</span></h1>
     <hr />
     <div class="row">
         <div class="col-md-8">
-            @* Am mărit coloana pentru a avea loc de descrieri *@
             <form asp-action="Edit" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="FigurinaID" />
-                <input type="hidden" asp-for="ImagineUrl" /> @* Păstrăm URL-ul vechi dacă nu punem poză nouă *@
+                <input type="hidden" asp-for="ImagineUrl" />
+                @* Păstrăm și vechiul byte array ascuns ca să nu se piardă dacă nu punem poză nouă *@
+                @if (Model.ImagineFigurina != null)
+                {
+                    <input type="hidden" name="ImagineFigurina" value="@Convert.ToBase64String(Model.ImagineFigurina)" />
+                }
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label asp-for="Nume" class="control-label fw-bold"></label>
                         <input asp-for="Nume" class="form-control" />
+                        <span asp-validation-for="Nume" class="text-danger"></span>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label asp-for="Pret" class="control-label fw-bold"></label>
                         <input asp-for="Pret" class="form-control" />
+                        <span asp-validation-for="Pret" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -31,7 +37,6 @@
                     <textarea asp-for="Descriere" class="form-control" rows="2"></textarea>
                 </div>
 
-                @* --- CÂMPURILE NOI --- *@
                 <div class="mb-3">
                     <label asp-for="PovestePersonaj" class="control-label fw-bold">Povestea Personajului (Lore)</label>
                     <textarea asp-for="PovestePersonaj" class="form-control" rows="5"></textarea>
@@ -57,22 +62,41 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label asp-for="ImageFile" class="control-label fw-bold">Schimbă Imaginea (opțional)</label>
-                    <input asp-for="ImageFile" class="form-control" type="file" />
+                <div class="mb-4">
+                    <label asp-for="ImageFile" class="control-label fw-bold bg-light p-2 w-100 border rounded">
+                        <i class="bi bi-upload me-2"></i> Încarcă Imagine Nouă (Opțional)
+                    </label>
+                    <input asp-for="ImageFile" class="form-control mt-2" type="file" />
                 </div>
 
-                <div class="form-group mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg">Salvează Modificările</button>
-                    <a asp-action="Index" class="btn btn-secondary btn-lg">Anulează</a>
+                <div class="d-flex gap-3 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg px-5 shadow">Salvează</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg">Anulează</a>
                 </div>
             </form>
         </div>
 
-        @* Previzualizare imagine curentă *@
+        @* Previzualizare Inteligentă (Suportă ambele tipuri de imagini) *@
         <div class="col-md-4 text-center">
-            <p class="fw-bold">Imagine curentă:</p>
-            <img src="/images/figurine/@Model.ImagineUrl" class="img-thumbnail" style="max-height: 300px;" onerror="this.src='/images/default-item.png'" />
+            <div class="card shadow-sm p-3 sticky-top" style="top: 100px;">
+                <p class="fw-bold text-muted mb-3">Imagine Curentă</p>
+
+                @if (!string.IsNullOrEmpty(Model.ImagineUrl))
+                {
+                    <img src="/images/figurine/@Model.ImagineUrl" class="img-fluid rounded border"
+                         onerror="this.src='/images/default-item.png'" />
+                }
+                else if (Model.ImagineFigurina != null && Model.ImagineFigurina.Length > 0)
+                {
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImagineFigurina)"
+                         class="img-fluid rounded border" />
+                }
+                else
+                {
+                    <img src="/images/default-item.png" class="img-fluid rounded opacity-50" />
+                    <p class="small text-muted mt-2">Nicio imagine setată</p>
+                }
+            </div>
         </div>
     </div>
 </div>

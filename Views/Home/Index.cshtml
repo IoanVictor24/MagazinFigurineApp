@@ -1,8 +1,164 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Universul Figurinelor";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@* --- STILURI CSS LOCALE PENTRU PAGINA DE HOME --- *@
+<style>
+    /* Hero Section cu Imagine de Fundal și Overlay */
+    .hero-section {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1608889175123-8ee362201f81?q=80&w=2000&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        height: 80vh; /* 80% din înălțimea ecranului */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        border-radius: 0 0 20px 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        margin-top: -20px; /* Să urce puțin sub navbar */
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        background: -webkit-linear-gradient(#fff, #ccc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        font-weight: 300;
+        opacity: 0.9;
+    }
+
+    /* Carduri de Categorie */
+    .category-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2) !important;
+        }
+
+    .category-img {
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .category-card:hover .category-img {
+        transform: scale(1.1);
+    }
+
+    /* Secțiunea de Beneficii */
+    .feature-icon {
+        font-size: 2.5rem;
+        color: #0d6efd; /* Albastrul Bootstrap */
+        margin-bottom: 15px;
+    }
+</style>
+
+@* --- HERO SECTION --- *@
+<div class="hero-section container-fluid mb-5">
+    <div class="container">
+        <h1 class="hero-title">Universul Figurinelor</h1>
+        <p class="hero-subtitle">Descoperă eroii care prind viață în colecția ta.</p>
+        <a asp-controller="Figurine" asp-action="Index" class="btn btn-primary btn-lg px-5 py-3 fw-bold shadow-lg rounded-pill">
+            Explorează Magazinul <i class="bi bi-rocket-takeoff ms-2"></i>
+        </a>
+    </div>
+</div>
+
+@* --- SECȚIUNE BENEFICII --- *@
+<div class="container mb-5">
+    <div class="row text-center g-4">
+        <div class="col-md-4">
+            <div class="p-4 bg-light rounded shadow-sm h-100">
+                <i class="bi bi-box-seam feature-icon"></i>
+                <h4 class="fw-bold">Ambalare Premium</h4>
+                <p class="text-muted">Fiecare figurină este împachetată cu grijă pentru a ajunge impecabil la tine.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 bg-light rounded shadow-sm h-100">
+                <i class="bi bi-patch-check feature-icon"></i>
+                <h4 class="fw-bold">Produse Originale</h4>
+                <p class="text-muted">Garantăm autenticitatea fiecărei piese din colecția noastră.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 bg-light rounded shadow-sm h-100">
+                <i class="bi bi-truck feature-icon"></i>
+                <h4 class="fw-bold">Livrare Rapidă</h4>
+                <p class="text-muted">Comenzile plasate până în ora 14:00 pleacă spre tine în aceeași zi.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* --- PREVIEW CATEGORII (Placeholder) --- *@
+@* --- COLECȚII POPULARE (Update Imagini Finale) --- *@
+<div class="container mb-5" style="margin-top: -80px; position: relative; z-index: 3;">
+    <div class="row g-4">
+
+        @* Card 1: MARVEL (Neschimbat) *@
+        <div class="col-md-4">
+            <div class="card category-card text-white">
+                <img src="https://images.unsplash.com/photo-1635863138275-d9b33299680b?q=80&w=800&auto=format&fit=crop" class="card-img category-img" alt="Iron Man Marvel">
+                <div class="card-img-overlay card-overlay">
+                    <div>
+                        <small class="text-uppercase fw-bold text-warning ls-2">Supereroi</small>
+                        <h3 class="card-title fw-bold display-6">MARVEL</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Card 2: TRANSFORMERS (Imaginea nouă cu mai mulți roboți) *@
+        <div class="col-md-4">
+            <div class="card category-card text-white">
+                <img src="https://wallpapercave.com/wp/wp7070473.jpg" class="card-img category-img" alt="Transformers Battle">
+                <div class="card-img-overlay card-overlay">
+                    <div>
+                        <small class="text-uppercase fw-bold text-info ls-2">Roboți</small>
+                        <h3 class="card-title fw-bold display-6">TRANSFORMERS</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Card 3: STAR WARS (Imaginea nouă Empire Strikes Back) *@
+        <div class="col-md-4">
+            <div class="card category-card text-white">
+                <img src="https://w0.peakpx.com/wallpaper/818/1008/HD-wallpaper-empire-strikes-back-movie-star-wars-solo-vader-empire.jpg" class="card-img category-img" alt="Star Wars Empire">
+                <div class="card-img-overlay card-overlay">
+                    <div>
+                        <small class="text-uppercase fw-bold text-danger ls-2">Galactic</small>
+                        <h3 class="card-title fw-bold display-6">STAR WARS</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@* --- NEWSLETTER / CTA FINAL --- *@
+<div class="bg-dark text-white py-5 mb-0">
+    <div class="container text-center">
+        <h2 class="fw-bold">Nu găsești ce cauți?</h2>
+        <p class="lead text-white-50 mb-4">Stocul nostru se actualizează săptămânal. Verifică catalogul complet.</p>
+        <a asp-controller="Figurine" asp-action="Index" class="btn btn-outline-light btn-lg px-4">Vezi Toate Produsele</a>
+    </div>
 </div>
